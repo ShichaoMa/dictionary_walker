@@ -4,6 +4,8 @@ import glob
 import traceback
 import requests
 
+from functools import partial
+
 
 class DicWalk(object):
     """
@@ -77,10 +79,10 @@ class DicWalk(object):
         :param filename:
         :return:
         """
-        return filename.endswith("jpg") and len(filename) == 105
+        return filename.endswith("jpg") and not filename.count("_")
 
 
-def send(filename, dictionary, session=requests.Session()):
+def send(filename, dictionary, site=None, session=None):
     """
     callback函数,可根据自己需求实现，若返回False，则在error文件中会记录该文件名。
     :param filename:
@@ -88,7 +90,7 @@ def send(filename, dictionary, session=requests.Session()):
     :param session:
     :return:
     """
-    site = filename.replace("%s/"%dictionary.rstrip("/"), "").split("/")[0]
+    site = site or filename.replace("%s/"%dictionary.rstrip("/"), "").split("/")[0]
     try:
         url = "http://192.168.200.79:8888/%s/" % site
         resp = session.post(url,
@@ -105,4 +107,5 @@ def send(filename, dictionary, session=requests.Session()):
 
 
 if __name__ == "__main__":
-    DicWalk(send, "/mnt/nas").start()
+    import sys
+    DicWalk(partial(send, site=sys.argv[1], session=requests.Session()), sys.argv[2]).start()
