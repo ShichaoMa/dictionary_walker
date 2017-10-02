@@ -24,4 +24,4 @@ def walker_child_dict_with_multi_process(path, process_count):
 
 if __name__ == "__main__":
     import sys
-    walker_child_dict_with_multi_process(sys.argv[1], sys.argv[2])
+    walker_child_dict_with_multi_process(sys.argv[1], int(sys.argv[2]))
