@@ -12,7 +12,7 @@ def walk_child_dict_with_multi_process(path, process_count):
         path = paths.pop(-1)
         basename = os.path.basename(path)
         runners[path] = subprocess.Popen(
-            "mkdir -p %s && cd %s && nohup python3 dict_walker.py amazon %s > %s.log 2>&1 &"%(
+            "mkdir -p %s && cd %s && nohup python3 ../dict_walker.py amazon %s > %s.log 2>&1 &"%(
             basename, basename, path, basename), shell=True)
 
         while len(runners) >= process_count:
