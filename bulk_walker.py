@@ -18,7 +18,7 @@ def walk_child_dict_with_multi_process(path, process_count):
         while len(runners) >= process_count:
             time.sleep(10)
             for path in list(runners.keys()):
-                if len([line for line in os.popen("ps -ef|grep %s"%path).readlines() if not line.count("grep %s"%path)]):
+                if not len([line for line in os.popen("ps -ef|grep %s"%path).readlines() if not line.count("grep %s"%path)]):
                     del runners[path]
 
 
