@@ -95,6 +95,15 @@ def send(filename, dictionary, site=None, session=None):
         url = "http://192.168.200.79:8888/%s/" % site
         resp = session.post(url,
                             files={"file": (os.path.basename(filename), open(filename, "rb"))}, timeout=10)
+        md5_url = "http://192.168.200.79:8888/md5/%s/" % site
+        md5_filename = filename.replace(".jpg", ".md5")
+        if os.path.exists(md5_filename):
+            md5_resp = session.post(
+                md5_url, files={"file": (os.path.basename(md5_filename), open(md5_filename, "rb"))}, timeout=10)
+            if md5_resp.status_code < 300:
+                print(md5_filename)
+            else:
+                print(md5_resp.text)
         if resp.status_code < 300:
             print(filename)
             return True
