@@ -92,10 +92,10 @@ def send(filename, dictionary, site=None, session=None):
     """
     site = site or filename.replace("%s/"%dictionary.rstrip("/"), "").split("/")[0]
     try:
-        url = "http://192.168.200.79:8888/%s/" % site
+        url = "http://192.168.200.70:8888/%s/" % site
         resp = session.post(url,
                             files={"file": (os.path.basename(filename), open(filename, "rb"))}, timeout=10)
-        md5_url = "http://192.168.200.79:8888/md5/%s/" % site
+        md5_url = "http://192.168.200.70:8888/md5/%s/" % site
         md5_filename = filename.replace(".jpg", ".md5")
         if os.path.exists(md5_filename):
             md5_resp = session.post(
